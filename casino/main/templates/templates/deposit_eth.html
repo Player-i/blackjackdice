@@ -1,0 +1,60 @@
+<html>
+    <script src="https://cdn.ethers.io/lib/ethers-5.0.umd.min.js" type="text/javascript">
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+    </script>
+  <body>
+    <h1>Deposit</h1>
+    <h1>{{user.eth}}</h1>
+    <button id='conect_to_metamask'>Connect</button>
+    <button id='send_eth'>Send ETH</button>
+  </body>
+
+  <script>
+    let account;
+    document.getElementById("conect_to_metamask").onclick = async function(e) {
+
+      const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
+      account = accounts[0]; 
+      console.log(account);
+    }
+
+    document.getElementById("send_eth").onclick = async function(e) {
+
+
+        const transactionParameters = {
+          nonce: '0x00', // ignored by MetaMask
+          gasPrice: '0x09184e72a000', // customizable by user during MetaMask confirmation.
+          gas: '0x2710', // customizable by user during MetaMask confirmation.
+          to: '0x2f318C334780961FB129D2a6c30D0763d9a5C970', // Required except during contract publications.
+          from: ethereum.selectedAddress, // must match user's active address.
+          value: '0x00', // Only required to send ether to the recipient from the initiating external account.
+          data:
+            '0x7f7465737432000000000000000000000000000000000000000000000000000000600057', // Optional, but used for defining smart contract creation and interaction.
+          chainId: '0x3', // Used to prevent transaction reuse across blockchains. Auto-filled by MetaMask.
+        };
+        const txHash = await ethereum.request({
+          method: 'eth_sendTransaction',
+          params: [transactionParameters],
+          
+        })
+        .then((txHash) => {
+          console.log(txHash);
+          $.ajax({
+            url: "{% url 'deposit_eth' %}",
+            type: "POST",
+            data: {
+              eth_send: winNumber,
+              csrfmiddlewaretoken: "{{ csrf_token }}",
+            },
+            dataType: "json",
+            success: function (json) {},
+          });
+
+        })
+        .catch((error) => console.error);
+        
+
+    }
+  </script>
+</html>

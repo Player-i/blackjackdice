@@ -1,0 +1,40 @@
+{% extends 'templates/base.html' %} 
+
+{% block content%}
+        <h1> Create Room </h1>
+        {% comment %} <form
+        method="POST"
+        action=""
+        class="text-center"
+        enctype="multipart/form-data">
+        {% csrf_token %} {% endcomment %}
+
+        <input
+                type="text"
+                name="room_name"
+                maxlength="60"
+                autofocus
+                required
+                id="id_room_name"
+                placeholder="Room Name" />
+</br>
+
+                <input
+                name="eth_choice"
+                type="text"
+                maxlength="60"
+                id="eth_choice"
+                placeholder="ETH Choice" />
+</br>
+        <input id="create_room_btn"  class="button" type="submit" name="signin" value="Create" /><br />
+{% comment %} </form> {% endcomment %}
+
+<script>
+        
+        document.getElementById("create_room_btn").onclick = function(e){
+                let eth_choice = document.getElementById("eth_choice").value;
+                console.log(eth_choice);
+        }
+
+</script>
+{% endblock %}

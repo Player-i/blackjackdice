@@ -1,0 +1,17 @@
+<html>
+	<body>
+		<h1>Rooms</h1>
+		<h1><a href="create/">Create Room </a></h1>
+		<div>
+			{% for room in rooms %} {% if room.players < 2 %}
+
+			<div>
+				<h2>{{room.name}}</h2>
+
+				<a href="{% url 'room' room.slug %}"> Join </a>
+			</div>
+			{% endif %} {% endfor %}
+			
+		</div>
+	</body>
+</html>
